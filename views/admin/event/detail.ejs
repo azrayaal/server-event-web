@@ -1,4 +1,6 @@
-<%- include ../../partials/header.ejs %> <%- include ../../partials/navbar.ejs %> <%- include ../../partials/sidebar.ejs %>
+<%- include ../../partials/header.ejs %> 
+
+<%- include ../../partials/navbar.ejs %> <%- include ../../partials/sidebar.ejs %>
 
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -6,13 +8,13 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Category</h1>
+          <h1>Event Detail</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item"><a href="/category">Category</a></li>
-            <li class="breadcrumb-item active">Edit</li>
+            <li class="breadcrumb-item"><a href="/event">Event</a></li>
+            <li class="breadcrumb-item active">Detail</li>
           </ol>
         </div>
       </div>
@@ -26,121 +28,104 @@
       <div class="row">
         <div class="col-12">
           <div class="card">
-            <!-- /.card-header -->
             <div class="card-body">
               <div class="card card-primary">
                 <div class="card-header">
-                  <h3 class="card-title">Form edit event "<%= event.event_name %>""</h3>
+                  <h3 class="card-title">Detail event "<%= event.event_name %>""</h3>
                 </div>
-                <!-- /.card-header -->
-                <!-- form start -->
-                <form action="/event/edit/<%= event._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
-                  <div class="card-body">
-                    <div class="form-group">
-                      <label for="name">Masukan nama event</label>
-                      <input type="text" name="event_name" class="form-control" value="<%= event.event_name %>" id="exampleInputEmail1" placeholder="masukan nama event" required />
-                    </div>
-                    <!-- </div> -->
-                    <!-- <div class="card-body"> -->
-                    <div class="form-group">
-                      <label for="name">Masukan deskripsi event</label>
-                      <input type="text" name="description" class="form-control" value="<%= event.description %>" id="exampleInputEmail1" placeholder="masukan deskripsi event" required />
-                    </div>
-                    <!-- </div> -->
-                    <!-- <div class="card-body"> -->
-                    <div class="form-group">
-                      <label>Date:</label>
-                      <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                        <input type="text" name="date" class="form-control" value="<%= event.date %>" datetimepicker-input" data-target="#reservationdate" placeholder="masukan tanggal" />
-                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- </div> -->
-                    <!-- <div class="card-body"> -->
-                    <div class="form-group">
-                      <label for="name">Masukan lokasi event</label>
-                      <input type="text" name="location" class="form-control" value="<%= event.location %>" id="exampleInputEmail1" placeholder="masukan lokasi event" required />
-                    </div>
-                    <!-- </div> -->
-                    <!-- <div class="card-body"> -->
-                    <div class="form-group">
-                      <label>Category </label>
-                      <div class="select2-purple">
-                        <select class="form-control select2" multiple="multiple" value="<%= category._id %>" data-placeholder="Pilih category" style="width: 100%" name="category" required>
-                          <% category.forEach(category => { %>
-                          <option value="<%= category._id  %>"
-                            <% event.category.forEach(eventCategory => { %>
-                            <% if(category._id.toString() === eventCategory._id.toString()) { %>
-                              selected 
-                              <% } %>  
-                              <% }); %>
-                              >
-                              <%= category.category_name %> - <%= category.price %> 
-                            </option>
-                            <% }); %> 
 
-                        </select>
-                      </div>
-                    </div>
-                    <!-- </div> -->
-                    <!-- <div class="card-body"> -->
-                    <div class="form-group">
-                      <label>Talent </label>
-                      <div class="select2-purple">
-                        <select class="form-control select2" multiple="multiple" value="<%= talent._id %>" data-placeholder="Pilih talent" style="width: 100%" name="talent" required>
-                          <% talent.forEach(talent => { %>
-                          <option value="<%= talent._id  %>"
-                            <% event.talent.forEach(eventTalent => { %>
-                            <% if(talent._id.toString() === eventTalent._id.toString()) { %>
-                              selected 
-                              <% } %>  
-                              <% }); %>
-                              >
-                              <%= talent.talent_name %> 
-                            </option>
-                            <% }); %> 
-                        </select>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label for="image">Banner</label>
-                      <input type="file" name="image" class="form-control" id="image" placeholder=""  />
-                      <br />
-                      <div class="row">
-                        <div class="col">
-                          <h3>From</h3>
-                          <img height="300px" width="450px" src="http://localhost:3000/uploads/<%= event.banner %>" alt="" />
-                        </div>
-                        <div class="col">
-                          <h3>To</h3>
-                          <img src="" id="perview" />
-                        </div>
-                      </div>
+      <div class="card card-solid">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12 col-sm-6">
+              <div class="col-12">
+                <h3 class="my-3"><%= event.event_name %></h3>
+                <img height="300px" width="450px" src="http://localhost:3000/uploads/<%= event.banner %>" alt="" />
+              </div>
+            </div>
+            <div class="col-12 col-sm-6">
+              <br/>
+              <h4>Locations:</h4>
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-default text-center">
+                  <%= event.location %>
+                </label>
+              </div>
+              <div class="row">
+                <div class="col-6 col-sm-6">
+                  <h4 class="pt-3">Date: </h4>
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-default text-center">
+                     <%= event.date %>
+                    </label>
+                  </div>
+                  <h4 class="pt-3">Category: </h4>
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-default text-center class="form-control select2" multiple="multiple" value="<%= category._id %>" data-placeholder="Pilih category" style="width: 100%" name="category"">
+                              <% category.forEach(category => { %>
+                              <option value="<%= category._id  %>"
+                                <% event.category.forEach(eventCategory => { %>
+                                <% if(category._id.toString() === eventCategory._id.toString()) { %>
+                                  selected 
+                                  <% } %>  
+                                  <% }); %>
+                                  >
+                                  <%= category.category_name %> - <%= category.price %> 
+                                </option>
+                                <% }); %> 
+                
+                    </label>
+                  </div>
+                </div>
+                <div class="col-6 col-sm-6">
+                
+                  <h4 class="pt-3">Talent: </h4>
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <div class="btn btn-default text-center class="form-control select2" multiple="multiple" value="<%= talent._id %>" data-placeholder="Pilih category" style="width: 100%" name="category"">
+                             <% talent.forEach(talent => { %>
+                              <option value="<%= talent._id  %>"
+                                <% event.talent.forEach(eventTalent => { %>
+                                <% if(talent._id.toString() === eventTalent._id.toString()) { %>
+                                  selected 
+                                  <% } %>  
+                                  <% }); %>
+                                  >
+                                  <%= talent.talent_name %> 
+                                </option>
+                                <% }); %> 
+                
                     </div>
                   </div>
+                </div>
+              </div>
 
-                  <div class="card-footer">
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan</button>
-                    <button type="submit" class="btn btn-secondary">
-                      <a href="/event" style="color: white"><i class="fa fa-undo"></i> Cancel</a>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <nav class="w-100">
+              <div class="nav nav-tabs" id="product-tab" role="tablist">
+                <a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab" role="tab" aria-controls="product-desc" aria-selected="true">Descriptions</a>
+              </div>
+            </nav>
+            <div class="tab-content p-3" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab"><%= event.description %></div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+  <div class="card-footer">
+                    <button  class="btn btn-secondary">
+                      <a href="/event" style="color: white"><i class="fa fa-undo"></i> Back</a>
                     </button>
                   </div>
-                </form>
               </div>
             </div>
           </div>
-          <!-- /.card -->
-          <!-- /.card -->
         </div>
-        <!-- /.col -->
       </div>
-      <!-- /.row -->
     </div>
-    <!-- /.container-fluid -->
   </section>
-  <!-- /.content -->
 </div>
 
 <%- include ../../partials/footer.ejs %> <%- include ../../partials/js.ejs %>

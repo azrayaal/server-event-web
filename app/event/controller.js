@@ -107,6 +107,26 @@ module.exports = {
     }
   },
 
+  viewDetail: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const category = await Category.find();
+      const talent = await Talent.find();
+      const event = await Event.findOne({ _id: id }).populate('category').populate('talent');
+
+      res.render('admin/event/detail', {
+        category,
+        talent,
+        event,
+        // name: req.session.user.name,
+        title: 'Halaman ubah event',
+      });
+    } catch (err) {
+      req.flash('alertMessage', `${err.message}`);
+      req.flash('alertStatus', 'danger');
+      res.redirect('/event');
+    }
+  },
   viewEdit: async (req, res) => {
     try {
       const { id } = req.params;

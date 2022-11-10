@@ -114,7 +114,7 @@ module.exports = {
   actionEdit: async (req, res) => {
     try {
       const { id } = req.params;
-      const { talent_name, talent_picture } = req.body;
+      const { talent_name } = req.body;
 
       if (req.file) {
         let tmp_path = req.file.path;

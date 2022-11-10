@@ -1,6 +1,9 @@
 const Event = require('./model');
 const Category = require('../category/model');
 const Talent = require('../talent/model');
+const path = require('path');
+const fs = require('fs');
+const config = require('../../config');
 
 module.exports = {
   index: async (req, res) => {
@@ -53,13 +56,50 @@ module.exports = {
     try {
       const { event_name, description, date, location, category, talent } = req.body;
 
-      let event = await Event({ event_name, description, date, location, category, talent });
-      await event.save();
+      if (req.file) {
+        let tmp_path = req.file.path;
+        let originaExt = req.file.originalname.split('.')[req.file.originalname.split('.').length - 1];
+        let filename = req.file.filename + '.' + originaExt;
+        let target_path = path.resolve(config.rootPath, `public/uploads/${filename}`);
 
-      req.flash('alertMessage', 'Berhasil tambah event');
-      req.flash('alertStatus', 'success');
+        const src = fs.createReadStream(tmp_path);
+        const dest = fs.createWriteStream(target_path);
 
-      res.redirect('/event');
+        src.pipe(dest);
+
+        src.on('end', async () => {
+          try {
+            const event = new Event({
+              event_name,
+              description,
+              date,
+              location,
+              category,
+              talent,
+              banner: filename,
+            });
+
+            await event.save();
+
+            req.flash('alertMessage', 'Berhasil tambah talent');
+            req.flash('alertStatus', 'success');
+
+            res.redirect('/event');
+          } catch (err) {
+            req.flash('alertMessage', `${err.message}`);
+            req.flash('alertStatus', 'danger');
+            res.redirect('/event');
+          }
+        });
+      } else {
+        const event = new Event({ event_name, description, date, location, category, talent, banner });
+
+        await event.save();
+
+        req.flash('alertMessage', 'Berhasil tambah event');
+        req.flash('alertStatus', 'success');
+        res.redirect('/event');
+      }
     } catch (err) {
       req.flash('alertMessage', `${err.message}`);
       req.flash('alertStatus', 'danger');
@@ -93,17 +133,64 @@ module.exports = {
       const { id } = req.params;
       const { event_name, description, date, location, category, talent } = req.body;
 
-      await Event.findOneAndUpdate(
-        {
-          _id: id,
-        },
-        { event_name, description, date, location, category, talent }
-      );
+      if (req.file) {
+        let tmp_path = req.file.path;
+        let originaExt = req.file.originalname.split('.')[req.file.originalname.split('.').length - 1];
+        let filename = req.file.filename + '.' + originaExt;
+        let target_path = path.resolve(config.rootPath, `public/uploads/${filename}`);
 
-      req.flash('alertMessage', 'Berhasil ubah event');
-      req.flash('alertStatus', 'success');
+        const src = fs.createReadStream(tmp_path);
+        const dest = fs.createWriteStream(target_path);
 
-      res.redirect('/event');
+        src.pipe(dest);
+
+        src.on('end', async () => {
+          try {
+            const event = await Event.findOne({ _id: id });
+
+            let currentImage = `${config.rootPath}/public/uploads/${event.banner}`;
+            if (fs.existsSync(currentImage)) {
+              fs.unlinkSync(currentImage);
+            }
+
+            await Event.findOneAndUpdate(
+              {
+                _id: id,
+              },
+              {
+                event_name,
+                description,
+                date,
+                location,
+                category,
+                talent,
+                banner: filename,
+              }
+            );
+
+            req.flash('alertMessage', 'Berhasil ubah talent');
+            req.flash('alertStatus', 'success');
+
+            res.redirect('/event');
+          } catch (err) {
+            req.flash('alertMessage', `${err.message}`);
+            req.flash('alertStatus', 'danger');
+            res.redirect('/event');
+          }
+        });
+      } else {
+        await Event.findOneAndUpdate(
+          {
+            _id: id,
+          },
+          { event_name, description, date, location, category, talent }
+        );
+
+        req.flash('alertMessage', 'Berhasil ubah event');
+        req.flash('alertStatus', 'success');
+
+        res.redirect('/event');
+      }
     } catch (err) {
       req.flash('alertMessage', `${err.message}`);
       req.flash('alertStatus', 'danger');

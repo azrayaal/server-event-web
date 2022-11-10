@@ -63,7 +63,7 @@ module.exports = {
 
       res.render('admin/category/edit', {
         category,
-        name: req.session.user.name,
+        // name: req.session.user.name,
         title: 'Halaman ubah kategori',
       });
     } catch (err) {
@@ -78,7 +78,7 @@ module.exports = {
       const { id } = req.params;
       const { category_name, price } = req.body;
 
-      await category.findOneAndUpdate(
+      await Category.findOneAndUpdate(
         {
           _id: id,
         },

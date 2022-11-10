@@ -1,4 +1,7 @@
 const Talent = require('./model');
+const path = require('path');
+const fs = require('fs');
+const config = require('../../config');
 
 module.exports = {
   index: async (req, res) => {
@@ -24,6 +27,7 @@ module.exports = {
       res.redirect('/talent');
     }
   },
+
   viewCreate: async (req, res) => {
     try {
       res.render('admin/talent/create', {
@@ -39,15 +43,49 @@ module.exports = {
 
   actionCreate: async (req, res) => {
     try {
-      const { talent_name, talent_picture } = req.body;
+      const { talent_name } = req.body;
 
-      let talent = await Talent({ talent_name, talent_picture });
-      await talent.save();
+      if (req.file) {
+        let tmp_path = req.file.path;
+        let originaExt = req.file.originalname.split('.')[req.file.originalname.split('.').length - 1];
+        let filename = req.file.filename + '.' + originaExt;
+        let target_path = path.resolve(config.rootPath, `public/uploads/${filename}`);
 
-      req.flash('alertMessage', 'Berhasil tambah kategori');
-      req.flash('alertStatus', 'success');
+        const src = fs.createReadStream(tmp_path);
+        const dest = fs.createWriteStream(target_path);
 
-      res.redirect('/talent');
+        src.pipe(dest);
+
+        src.on('end', async () => {
+          try {
+            const talent = new Talent({
+              talent_name,
+              talent_picture: filename,
+            });
+
+            await talent.save();
+
+            req.flash('alertMessage', 'Berhasil tambah talent');
+            req.flash('alertStatus', 'success');
+
+            res.redirect('/talent');
+          } catch (err) {
+            req.flash('alertMessage', `${err.message}`);
+            req.flash('alertStatus', 'danger');
+            res.redirect('/talent');
+          }
+        });
+      } else {
+        const talent = new Talent({
+          talent_name,
+        });
+
+        await talent.save();
+
+        req.flash('alertMessage', 'Berhasil tambah talent');
+        req.flash('alertStatus', 'success');
+        res.redirect('/talent');
+      }
     } catch (err) {
       req.flash('alertMessage', `${err.message}`);
       req.flash('alertStatus', 'danger');
@@ -63,7 +101,7 @@ module.exports = {
 
       res.render('admin/talent/edit', {
         talent,
-        name: req.session.user.name,
+        // name: req.session.user.name,
         title: 'Halaman ubah kategori',
       });
     } catch (err) {
@@ -78,17 +116,61 @@ module.exports = {
       const { id } = req.params;
       const { talent_name, talent_picture } = req.body;
 
-      await Talent.findOneAndUpdate(
-        {
-          _id: id,
-        },
-        { talent_name, talent_picture }
-      );
+      if (req.file) {
+        let tmp_path = req.file.path;
+        let originaExt = req.file.originalname.split('.')[req.file.originalname.split('.').length - 1];
+        let filename = req.file.filename + '.' + originaExt;
+        let target_path = path.resolve(config.rootPath, `public/uploads/${filename}`);
 
-      req.flash('alertMessage', 'Berhasil ubah kategori');
-      req.flash('alertStatus', 'success');
+        const src = fs.createReadStream(tmp_path);
+        const dest = fs.createWriteStream(target_path);
 
-      res.redirect('/talent');
+        src.pipe(dest);
+
+        src.on('end', async () => {
+          try {
+            const talent = await Talent.findOne({ _id: id });
+
+            let currentImage = `${config.rootPath}/public/uploads/${talent.talent_picture}`;
+            if (fs.existsSync(currentImage)) {
+              fs.unlinkSync(currentImage);
+            }
+
+            await Talent.findOneAndUpdate(
+              {
+                _id: id,
+              },
+              {
+                talent_name,
+                talent_picture: filename,
+              }
+            );
+
+            req.flash('alertMessage', 'Berhasil ubah talent');
+            req.flash('alertStatus', 'success');
+
+            res.redirect('/talent');
+          } catch (err) {
+            req.flash('alertMessage', `${err.message}`);
+            req.flash('alertStatus', 'danger');
+            res.redirect('/talent');
+          }
+        });
+      } else {
+        await Talent.findOneAndUpdate(
+          {
+            _id: id,
+          },
+          {
+            talent_name,
+          }
+        );
+
+        req.flash('alertMessage', 'Berhasil ubah Talent');
+        req.flash('alertStatus', 'success');
+
+        res.redirect('/talent');
+      }
     } catch (err) {
       req.flash('alertMessage', `${err.message}`);
       req.flash('alertStatus', 'danger');

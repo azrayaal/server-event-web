@@ -4,7 +4,6 @@ let talentSchema = mongoose.Schema(
   {
     talent_picture: {
       type: String,
-      require: [true, 'harga harus diiisi'],
     },
     talent_name: {
       type: String,

@@ -17,14 +17,18 @@ let eventSchema = mongoose.Schema({
     type: String,
     require: [true, 'lokasi harus diiisi']
   },
-  talent: {
-    type: String,
-    require: [true, 'talent harus diiisi']
-  },
-  category: {
-    type: String,
-    require: [true, 'category harus diiisi']
-  },
+  talent: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Talent',
+      },
+    ],
+   category: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
+      },
+    ],
 }, { timestamps: true })
 
 module.exports = mongoose.model('Event', eventSchema)

@@ -48,20 +48,44 @@
                     </div>
                   </div>
                   <div class="card-body">
-                  <div class="form-group">
-                  <label>Date:</label>
-                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                        <input type="text"  name="date" class="form-control datetimepicker-input" data-target="#reservationdate"/>
+                    <div class="form-group">
+                      <label>Date:</label>
+                      <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                        <input type="text" name="date" class="form-control datetimepicker-input" data-target="#reservationdate" />
                         <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
+                      </div>
                     </div>
-                </div>
                   </div>
                   <div class="card-body">
                     <div class="form-group">
                       <label for="name">Masukan lokasi event</label>
                       <input type="text" name="location" class="form-control" id="exampleInputEmail1" placeholder="masukan lokasi event" required />
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label>Category </label>
+                      <div class="select2-purple">
+                        <select class="form-control select2" multiple="multiple" data-placeholder="Pilih category" style="width: 100%" name="category" required>
+                          <% category.forEach(category => { %>
+                          <option value="<%= category._id  %>"><%= category.category_name %> - <%= category.price %></option>
+                          <% }); %>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label>Talent </label>
+                      <div class="select2-purple">
+                        <select class="form-control select2" multiple="multiple" data-placeholder="Pilih talent" style="width: 100%" name="talent" required>
+                          <% talent.forEach(talent => { %>
+                          <option value="<%= talent._id  %>"><%= talent.talent_name %></option>
+                          <% }); %>
+                        </select>
+                      </div>
                     </div>
                   </div>
 

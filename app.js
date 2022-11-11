@@ -8,8 +8,7 @@ var cors = require('cors');
 const flash = require('connect-flash');
 const session = require('express-session');
 
-const indexRouter = require('./routes/index');
-// const usersRouter = require('./routes/users');
+const indexRouter = require('./app/dashboard/router');
 const eventRouter = require('./app/event/router');
 const categoryRouter = require('./app/category/router');
 const talentRouter = require('./app/talent/router');

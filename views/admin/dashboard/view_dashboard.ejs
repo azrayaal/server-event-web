@@ -1,4 +1,4 @@
-<%- include ./partials/header.ejs %> <%- include ./partials/navbar.ejs %> <%- include ./partials/sidebar.ejs %>
+<%- include ../../partials/header.ejs %> <%- include ../../partials/navbar.ejs %> <%- include ../../partials/sidebar.ejs %>
 
 <!-- Content Wrapper. Contains page content -->
 
@@ -63,9 +63,9 @@
           <!-- small box -->
           <div class="small-box bg-warning">
             <div class="inner">
-              <h3>44</h3>
+              <h3><%= count.user %></h3>
 
-              <p><%= count.user %></p>
+              <p>Users</p>
             </div>
             <div class="icon">
               <i class="ion ion-person-add"></i>
@@ -98,7 +98,7 @@
 </div>
 <!-- /.content-wrapper -->
 
-<%- include ./partials/footer.ejs %>
+<%- include ../../partials/footer.ejs %>
 <!-- AdminLTE for demo purposes -->
 <!-- <script src="/adminlte/dist/js/demo.js"></script> -->
-<%- include ./partials/js.ejs %>
+<%- include ../../partials/js.ejs %>

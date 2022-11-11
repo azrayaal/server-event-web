@@ -18,8 +18,8 @@ module.exports = {
       res.render('admin/talent/view_talent', {
         talent,
         alert,
-        // name: req.session.user.name,
-        title: 'Halaman kategori',
+        name: req.session.user.name,
+        title: 'Halaman Talent',
       });
     } catch (err) {
       req.flash('alertMessage', `${err.message}`);
@@ -31,8 +31,8 @@ module.exports = {
   viewCreate: async (req, res) => {
     try {
       res.render('admin/talent/create', {
-        // name: req.session.user.name,
-        title: 'Halaman tambah kategori',
+        name: req.session.user.name,
+        title: 'Halaman tambah Talent',
       });
     } catch (err) {
       req.flash('alertMessage', `${err.message}`);
@@ -101,8 +101,8 @@ module.exports = {
 
       res.render('admin/talent/edit', {
         talent,
-        // name: req.session.user.name,
-        title: 'Halaman ubah kategori',
+        name: req.session.user.name,
+        title: 'Halaman ubah Talent',
       });
     } catch (err) {
       req.flash('alertMessage', `${err.message}`);
@@ -186,7 +186,7 @@ module.exports = {
         _id: id,
       });
 
-      req.flash('alertMessage', 'Berhasil hapus kategori');
+      req.flash('alertMessage', 'Berhasil hapus Talent');
       req.flash('alertStatus', 'success');
 
       res.redirect('/talent');

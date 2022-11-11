@@ -24,7 +24,7 @@ module.exports = {
         talent,
         event,
         alert,
-        // name: req.session.user.name,
+        name: req.session.user.name,
         title: 'Halaman event',
       });
     } catch (err) {
@@ -42,7 +42,7 @@ module.exports = {
         category,
         talent,
         event,
-        // name: req.session.user.name,
+        name: req.session.user.name,
         title: 'Halaman tambah event',
       });
     } catch (err) {
@@ -118,7 +118,7 @@ module.exports = {
         category,
         talent,
         event,
-        // name: req.session.user.name,
+        name: req.session.user.name,
         title: 'Halaman ubah event',
       });
     } catch (err) {
@@ -138,7 +138,7 @@ module.exports = {
         category,
         talent,
         event,
-        // name: req.session.user.name,
+        name: req.session.user.name,
         title: 'Halaman ubah event',
       });
     } catch (err) {

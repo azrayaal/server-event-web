@@ -1,4 +1,4 @@
-const User = require('./model');
+const Admin = require('./model');
 const bcrypt = require('bcryptjs');
 
 module.exports = {
@@ -7,8 +7,8 @@ module.exports = {
       const alertMessage = req.flash('alertMessage');
       const alertStatus = req.flash('alertStatus');
       const alert = { message: alertMessage, status: alertStatus };
-      if (req.session.user === null || req.session.user === undefined) {
-        res.render('admin/users/view_signin', {
+      if (req.session.admin === null || req.session.admin === undefined) {
+        res.render('admin/admins/view_signin', {
           alert,
           title: 'Halaman SignIn',
         });
@@ -25,7 +25,7 @@ module.exports = {
   actionSignin: async (req, res) => {
     try {
       const { email, password } = req.body;
-      const check = await User.findOne({ email: email });
+      const check = await Admin.findOne({ email: email });
       console.log('check>');
       console.log(check);
 
@@ -33,7 +33,7 @@ module.exports = {
         if (check.status === 'Y') {
           const checkPassword = await bcrypt.compare(password, check.password);
           if (checkPassword) {
-            req.session.user = {
+            req.session.admin = {
               id: check._id,
               email: check.email,
               status: check.status,

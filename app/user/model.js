@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-let userSchema = mongoose.Schema(
+let adminSchema = mongoose.Schema(
   {
     email: {
       type: String,
@@ -17,7 +17,7 @@ let userSchema = mongoose.Schema(
     role: {
       type: String,
       enum: ['admin', 'user'],
-      default: 'admin',
+      default: 'user',
     },
     status: {
       type: String,
@@ -28,8 +28,13 @@ let userSchema = mongoose.Schema(
       type: String,
       require: [true, 'Nomor telefon harus diiisi'],
     },
+    avatar: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Admin', adminSchema);
+
+//

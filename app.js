@@ -9,12 +9,17 @@ const flash = require('connect-flash');
 const session = require('express-session');
 
 const indexRouter = require('./app/dashboard/router');
+const adminRouter = require('./app/admins/router');
+// const usersRouter = require('./app/users/router');
 const eventRouter = require('./app/event/router');
 const categoryRouter = require('./app/category/router');
 const talentRouter = require('./app/talent/router');
-const usersRouter = require('./app/users/router');
+const requestRouter = require('./app/request/router');
+const apiRouter = require('./app/api/router');
 
 var app = express();
+const URL = '/v1/api';
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -37,12 +42,16 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/adminlte', express.static(path.join(__dirname, '/node_modules/admin-lte')));
 
-app.use('/', usersRouter);
+app.use('/', adminRouter);
 app.use('/dashboard', indexRouter);
-app.use('/users', usersRouter);
+// app.use('/users', usersRouter);
 app.use('/event', eventRouter);
 app.use('/category', categoryRouter);
 app.use('/talent', talentRouter);
+app.use('/request', requestRouter);
+
+// API
+app.use(`${URL}/leisure`, apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -1,0 +1,29 @@
+GET http://localhost:4000/v1/api/leisure/landingpage
+###
+GET http://localhost:4000/v1/api/leisure/detail/636bbc1b9cf218f53cc63282
+###
+
+POST http://localhost:5000/users
+Content-Type: application/json
+
+{
+    "name": "azra yazid",
+    "email": "azra@gamail.com",
+    "password": "rahasia",
+    "confPassword": "rahasia" 
+}
+###
+
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "email": "azra@gamail.com",
+    "password": "rahasia"
+}
+###
+
+GET http://localhost:5000/token
+###
+
+DELETE http://localhost:5000/logout

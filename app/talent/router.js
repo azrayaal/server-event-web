@@ -4,9 +4,9 @@ const { index, viewCreate, actionCreate, viewEdit, actionEdit, actionDelete } = 
 const multer = require('multer');
 const os = require('os');
 
-// // const { isLoginAdmin } = require('../middleware/auth')
+const { isLoginAdmin } = require('../middleware/auth');
 
-// // router.use(isLoginAdmin);
+router.use(isLoginAdmin);
 
 router.get('/', index);
 router.get('/create', viewCreate);

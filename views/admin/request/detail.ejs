@@ -1,0 +1,147 @@
+<%- include ../../partials/header.ejs %> 
+
+<%- include ../../partials/navbar.ejs %> <%- include ../../partials/sidebar.ejs %>
+
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Event Detail</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/event">Event</a></li>
+            <li class="breadcrumb-item active">Detail</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="card card-primary">
+                <div class="card-header">
+                  <h3 class="card-title">Detail event "<%= event.event_name %>""</h3>
+                </div>
+
+      <div class="card card-solid">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12 col-sm-6">
+              <div class="col-12">
+                <h3 class="my-3"><%= event.event_name %></h3>
+                <img height="300px" width="450px" src="http://localhost:3000/uploads/<%= event.banner %>" alt="" />
+              </div>
+            </div>
+            <div class="col-12 col-sm-6">
+              <br/>
+              <h4>Locations:</h4>
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-default text-center">
+                  <%= event.location %>
+                </label>
+              </div>
+              <div class="row">
+                <div class="col-6 col-sm-6">
+                  <h4 class="pt-3">Date: </h4>
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-default text-center">
+                     <%= event.date %>
+                    </label>
+                  </div>
+                  <h4 class="pt-3">Category: </h4>
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-default text-center class="form-control select2" multiple="multiple" value="<%= category._id %>" data-placeholder="Pilih category" style="width: 100%" name="category"">
+                              <% category.forEach(category => { %>
+                              <option value="<%= category._id  %>"
+                                <% event.category.forEach(eventCategory => { %>
+                                <% if(category._id.toString() === eventCategory._id.toString()) { %>
+                                  selected 
+                                  <% } %>  
+                                  <% }); %>
+                                  >
+                                  <%= category.category_name %> - <%= category.price %> 
+                                </option>
+                                <% }); %> 
+                
+                    </label>
+                  </div>
+                </div>
+                <div class="col-6 col-sm-6">
+                
+                  <h4 class="pt-3">Talent: </h4>
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <div class="btn btn-default text-center class="form-control select2" multiple="multiple" value="<%= talent._id %>" data-placeholder="Pilih category" style="width: 100%" name="category"">
+                             <% talent.forEach(talent => { %>
+                              <option value="<%= talent._id  %>"
+                                <% event.talent.forEach(eventTalent => { %>
+                                <% if(talent._id.toString() === eventTalent._id.toString()) { %>
+                                  selected 
+                                  <% } %>  
+                                  <% }); %>
+                                  >
+                                  <%= talent.talent_name %> 
+                                </option>
+                                <% }); %> 
+                
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="row mt-4">
+            <nav class="w-100">
+              <div class="nav nav-tabs" id="product-tab" role="tablist">
+                <a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab" role="tab" aria-controls="product-desc" aria-selected="true">Descriptions</a>
+              </div>
+            </nav>
+            <div class="tab-content p-3" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab"><%= event.description %></div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+  <div class="card-footer">
+                    <button  class="btn btn-secondary">
+                      <a href="/event" style="color: white"><i class="fa fa-undo"></i> Back</a>
+                    </button>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<%- include ../../partials/footer.ejs %> <%- include ../../partials/js.ejs %>
+<script>
+  function readUrl(input) {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        $('#perview').attr('src', e.target.result);
+        $('#perview').attr('width', '450');
+        $('#perview').attr('height', '300');
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+  $('#image').change(function () {
+    readUrl(this);
+  });
+</script>

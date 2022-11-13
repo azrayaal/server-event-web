@@ -18,9 +18,17 @@ let requestSchema = mongoose.Schema(
       type: String,
       require: [true, 'lokasi harus diiisi'],
     },
+    maps: {
+      type: String,
+      require: [true, 'maps harus diiisi'],
+    },
     agencyName: {
       type: String,
       require: [true, 'agensi harus diiisi'],
+    },
+    email: {
+      type: String,
+      require: [true, 'email harus diiisi'],
     },
     // user: [
     //   {

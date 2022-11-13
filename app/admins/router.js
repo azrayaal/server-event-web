@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
-const { view_signin, actionSignin, actionLogout } = require('./controller');
+const { viewSignin, actionSignin, actionLogout } = require('./controller');
 
-router.get('/', view_signin);
+router.get('/', viewSignin);
 router.post('/', actionSignin);
 router.get('/logout', actionLogout);
-
 module.exports = router;

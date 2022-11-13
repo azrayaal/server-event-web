@@ -45,6 +45,11 @@ let eventSchema = mongoose.Schema(
         ref: 'Category',
       },
     ],
+    status: {
+      type: String,
+      enum: ['Publish', 'Hold', 'Ended'],
+      default: 'Publish',
+    },
   },
   { timestamps: true }
 );

@@ -2,7 +2,7 @@ const Admin = require('./model');
 const bcrypt = require('bcryptjs');
 
 module.exports = {
-  view_signin: async (req, res) => {
+  viewSignin: async (req, res) => {
     try {
       const alertMessage = req.flash('alertMessage');
       const alertStatus = req.flash('alertStatus');
@@ -18,7 +18,7 @@ module.exports = {
     } catch (err) {
       req.flash('alertMessage', `${err.message}`);
       req.flash('alertStatus', 'danger');
-      res.redirect('/category');
+      res.redirect('/');
     }
   },
 

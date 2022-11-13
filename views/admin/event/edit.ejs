@@ -47,6 +47,10 @@
                       <input type="text" name="description" class="form-control" value="<%= event.description %>" id="exampleInputEmail1" placeholder="masukan deskripsi event" required />
                     </div>
                     <!-- </div> -->
+                       <div class="form-group">
+                      <label for="time">Jam</label>
+                      <input type="text" name="time" class="form-control" value="<%= event.time %>" id="exampleInputEmail1" placeholder="masukan waktu event" required />
+                    </div>
                     <!-- <div class="card-body"> -->
                     <div class="form-group">
                       <label>Date:</label>
@@ -62,6 +66,16 @@
                     <div class="form-group">
                       <label for="name">Masukan lokasi event</label>
                       <input type="text" name="location" class="form-control" value="<%= event.location %>" id="exampleInputEmail1" placeholder="masukan lokasi event" required />
+                    </div>
+
+                    <div class="form-group">
+                      <label for="maps">Maps</label>
+                      <input type="text" name="maps" class="form-control" id="exampleInputEmail1" value="<%= event.maps %>" placeholder="masukan maps berupa link gmaps" required />
+                    </div>
+
+                    <div class="form-group">
+                      <label for="organizer">Penyelenggara</label>
+                      <input type="text" name="organizer" class="form-control" id="exampleInputEmail1" placeholder="masukan lokasi event" value="<%= event.organizer %>" required />
                     </div>
                     <!-- </div> -->
                     <!-- <div class="card-body"> -->

@@ -33,6 +33,7 @@ app.use(
     cookie: {},
   })
 );
+
 app.use(flash());
 app.use(methodOverride('_method'));
 app.use(logger('dev'));

@@ -9,8 +9,8 @@ const flash = require('connect-flash');
 const session = require('express-session');
 
 const indexRouter = require('./app/dashboard/router');
-const adminRouter = require('./app/admins/router');
-// const usersRouter = require('./app/users/router');
+// const adminRouter = require('./app/admins/router');
+const usersRouter = require('./app/users/router');
 const eventRouter = require('./app/event/router');
 const categoryRouter = require('./app/category/router');
 const talentRouter = require('./app/talent/router');
@@ -43,9 +43,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/adminlte', express.static(path.join(__dirname, '/node_modules/admin-lte')));
 
-app.use('/', adminRouter);
+// app.use('/', adminRouter);
+app.use('/', usersRouter);
 app.use('/dashboard', indexRouter);
-// app.use('/users', usersRouter);
 app.use('/event', eventRouter);
 app.use('/category', categoryRouter);
 app.use('/talent', talentRouter);

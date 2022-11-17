@@ -236,4 +236,29 @@ module.exports = {
       res.redirect('/event');
     }
   },
+
+  actionStatus: async (req, res) => {
+    try {
+      const { id } = req.params;
+      let event = await Event.findOne({ _id: id });
+
+      let status = event.status === 'Publish' ? 'Ended' : 'Publish';
+
+      event = await Event.findOneAndUpdate(
+        {
+          _id: id,
+        },
+        { status }
+      );
+
+      req.flash('alertMessage', 'Berhasil ubah status');
+      req.flash('alertStatus', 'success');
+
+      res.redirect('/event');
+    } catch (error) {
+      req.flash('alertMessage', `${err.message}`);
+      req.flash('alertStatus', 'danger');
+      res.redirect('/event');
+    }
+  },
 };

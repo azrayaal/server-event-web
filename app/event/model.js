@@ -22,10 +22,10 @@ let eventSchema = mongoose.Schema(
       type: String,
       require: [true, 'lokasi harus diiisi'],
     },
-    time: {
-      type: String,
-      require: [true, 'lokasi harus diiisi'],
-    },
+    // time: {
+    //   type: String,
+    //   require: [true, 'lokasi harus diiisi'],
+    // },
     organizer: {
       type: String,
       require: [true, 'lokasi harus diiisi'],
@@ -48,7 +48,7 @@ let eventSchema = mongoose.Schema(
     status: {
       type: String,
       enum: ['Publish', 'Hold', 'Ended'],
-      default: 'Publish',
+      default: 'Hold',
     },
   },
   { timestamps: true }

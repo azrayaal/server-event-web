@@ -31,7 +31,7 @@ module.exports = {
       const { id } = req.params;
       // const category = await Category.find();
       // const talent = await Talent.find();
-      const request = await request.findOne({ _id: id });
+      const request = await Request.findOne({ _id: id });
 
       res.render('admin/request/detail', {
         request,
@@ -53,7 +53,7 @@ module.exports = {
         _id: id,
       });
 
-      req.flash('alertMessage', 'Berhasil hapus request');
+      req.flash('alertMessage', 'Request berhasil ditolak');
       req.flash('alertStatus', 'success');
 
       res.redirect('/request');

@@ -6,12 +6,20 @@ const Talent = require('../talent/model');
 module.exports = {
   landingPage: async (req, res) => {
     try {
-      const event = await Event.find();
+      const event = await Event.find({ status: 'Publish' });
       res.status(200).json({ data: event });
     } catch (error) {
       res.status(500).json({ message: error.message || 'Terjadi kesalahan pada server' });
     }
   },
+  // landingPage: async (req, res) => {
+  //   try {
+  //     const event = await Event.find();
+  //     res.status(200).json({ data: event });
+  //   } catch (error) {
+  //     res.status(500).json({ message: error.message || 'Terjadi kesalahan pada server' });
+  //   }
+  // },
 
   detailPage: async (req, res) => {
     try {

@@ -30,6 +30,11 @@ let requestSchema = mongoose.Schema(
       type: String,
       require: [true, 'email harus diiisi'],
     },
+    status: {
+      type: String,
+      enum: ['Pending', 'Accept', 'Decline'],
+      default: 'Pending',
+    },
     // user: [
     //   {
     //     type: mongoose.Schema.Types.ObjectId,

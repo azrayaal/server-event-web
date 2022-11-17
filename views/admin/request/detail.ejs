@@ -31,7 +31,7 @@
             <div class="card-body">
               <div class="card card-primary">
                 <div class="card-header">
-                  <h3 class="card-title">Detail event "<%= event.event_name %>""</h3>
+                  <h3 class="card-title">Detail event "<%= request.event_name %>""</h3>
                 </div>
 
       <div class="card card-solid">
@@ -39,8 +39,8 @@
           <div class="row">
             <div class="col-12 col-sm-6">
               <div class="col-12">
-                <h3 class="my-3"><%= event.event_name %></h3>
-                <img height="300px" width="450px" src="http://localhost:3000/uploads/<%= event.banner %>" alt="" />
+                <h3 class="my-3"><%= request.event_name %></h3>
+                <img height="300px" width="450px" src="http://localhost:3000/uploads/<%= request.banner %>" alt="" />
               </div>
             </div>
             <div class="col-12 col-sm-6">
@@ -48,7 +48,7 @@
               <h4>Locations:</h4>
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-default text-center">
-                  <%= event.location %>
+                  <%= request.location %>
                 </label>
               </div>
               <div class="row">
@@ -56,47 +56,9 @@
                   <h4 class="pt-3">Date: </h4>
                   <div class="btn-group btn-group-toggle" data-toggle="buttons">
                     <label class="btn btn-default text-center">
-                     <%= event.date %>
+                     <%= request.date %>
                     </label>
                   </div>
-                  <h4 class="pt-3">Category: </h4>
-                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-default text-center class="form-control select2" multiple="multiple" value="<%= category._id %>" data-placeholder="Pilih category" style="width: 100%" name="category"">
-                              <% category.forEach(category => { %>
-                              <option value="<%= category._id  %>"
-                                <% event.category.forEach(eventCategory => { %>
-                                <% if(category._id.toString() === eventCategory._id.toString()) { %>
-                                  selected 
-                                  <% } %>  
-                                  <% }); %>
-                                  >
-                                  <%= category.category_name %> - <%= category.price %> 
-                                </option>
-                                <% }); %> 
-                
-                    </label>
-                  </div>
-                </div>
-                <div class="col-6 col-sm-6">
-                
-                  <h4 class="pt-3">Talent: </h4>
-                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <div class="btn btn-default text-center class="form-control select2" multiple="multiple" value="<%= talent._id %>" data-placeholder="Pilih category" style="width: 100%" name="category"">
-                             <% talent.forEach(talent => { %>
-                              <option value="<%= talent._id  %>"
-                                <% event.talent.forEach(eventTalent => { %>
-                                <% if(talent._id.toString() === eventTalent._id.toString()) { %>
-                                  selected 
-                                  <% } %>  
-                                  <% }); %>
-                                  >
-                                  <%= talent.talent_name %> 
-                                </option>
-                                <% }); %> 
-                
-                    </div>
-                  </div>
-                </div>
               </div>
 
             </div>
@@ -108,7 +70,7 @@
               </div>
             </nav>
             <div class="tab-content p-3" id="nav-tabContent">
-              <div class="tab-pane fade show active" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab"><%= event.description %></div>
+              <div class="tab-pane fade show active" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab"><%= request.description %></div>
 
             </div>
           </div>
@@ -116,7 +78,7 @@
       </div>
   <div class="card-footer">
                     <button  class="btn btn-secondary">
-                      <a href="/event" style="color: white"><i class="fa fa-undo"></i> Back</a>
+                      <a href="/request" style="color: white"><i class="fa fa-undo"></i> Back</a>
                     </button>
                   </div>
               </div>

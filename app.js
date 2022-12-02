@@ -9,13 +9,14 @@ const flash = require('connect-flash');
 const session = require('express-session');
 
 const indexRouter = require('./app/dashboard/router');
-// const adminRouter = require('./app/admins/router');
+const adminRouter = require('./app/admins/router');
 const usersRouter = require('./app/users/router');
 const eventRouter = require('./app/event/router');
 const categoryRouter = require('./app/category/router');
 const talentRouter = require('./app/talent/router');
 const requestRouter = require('./app/request/router');
 const apiRouter = require('./app/api/router');
+const authRouter = require('./app/auth/router');
 
 var app = express();
 const URL = '/v1/api';
@@ -43,8 +44,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/adminlte', express.static(path.join(__dirname, '/node_modules/admin-lte')));
 
-// app.use('/', adminRouter);
-app.use('/', usersRouter);
+app.use('/', adminRouter);
+app.use('/user', usersRouter);
 app.use('/dashboard', indexRouter);
 app.use('/event', eventRouter);
 app.use('/category', categoryRouter);
@@ -53,6 +54,7 @@ app.use('/request', requestRouter);
 
 // API
 app.use(`${URL}/leisure`, apiRouter);
+app.use(`${URL}/auth`, authRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

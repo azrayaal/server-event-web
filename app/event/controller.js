@@ -24,7 +24,7 @@ module.exports = {
         talent,
         event,
         alert,
-        name: req.session.user.name,
+        name: req.session.admin.name,
         title: 'Halaman event',
       });
     } catch (err) {
@@ -33,6 +33,7 @@ module.exports = {
       res.redirect('/event');
     }
   },
+
   viewCreate: async (req, res) => {
     try {
       const category = await Category.find();
@@ -42,7 +43,7 @@ module.exports = {
         category,
         talent,
         event,
-        name: req.session.user.name,
+        name: req.session.admin.name,
         title: 'Halaman tambah event',
       });
     } catch (err) {
@@ -118,7 +119,7 @@ module.exports = {
         category,
         talent,
         event,
-        name: req.session.user.name,
+        name: req.session.admin.name,
         title: 'Halaman ubah event',
       });
     } catch (err) {
@@ -138,7 +139,7 @@ module.exports = {
         category,
         talent,
         event,
-        name: req.session.user.name,
+        name: req.session.admin.name,
         title: 'Halaman ubah event',
       });
     } catch (err) {

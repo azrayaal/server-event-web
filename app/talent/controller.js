@@ -18,7 +18,7 @@ module.exports = {
       res.render('admin/talent/view_talent', {
         talent,
         alert,
-        name: req.session.user.name,
+        name: req.session.admin.name,
         title: 'Halaman Talent',
       });
     } catch (err) {
@@ -31,7 +31,7 @@ module.exports = {
   viewCreate: async (req, res) => {
     try {
       res.render('admin/talent/create', {
-        name: req.session.user.name,
+        name: req.session.admin.name,
         title: 'Halaman tambah Talent',
       });
     } catch (err) {
@@ -101,7 +101,7 @@ module.exports = {
 
       res.render('admin/talent/edit', {
         talent,
-        name: req.session.user.name,
+        name: req.session.admin.name,
         title: 'Halaman ubah Talent',
       });
     } catch (err) {

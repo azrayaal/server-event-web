@@ -16,7 +16,7 @@ module.exports = {
       res.render('admin/request/view_request', {
         request,
         alert,
-        name: req.session.user.name,
+        name: req.session.admin.name,
         title: 'Halaman request',
       });
     } catch (err) {
@@ -35,7 +35,7 @@ module.exports = {
 
       res.render('admin/request/detail', {
         request,
-        name: req.session.user.name,
+        name: req.session.admin.name,
         title: 'Halaman detail request',
       });
     } catch (err) {

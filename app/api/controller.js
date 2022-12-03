@@ -3,6 +3,9 @@ const Category = require('../category/model');
 const Request = require('../request/model');
 const Talent = require('../talent/model');
 const User = require('../users/model');
+const path = require('path');
+const fs = require('fs');
+const config = require('../../config');
 
 module.exports = {
   landingPage: async (req, res) => {
@@ -58,15 +61,37 @@ module.exports = {
     }
   },
 
+  getProfileUser: async (req, res) => {
+    try {
+      const user = await User.find();
+      res.status(200).json({
+        data: user,
+      });
+    } catch (error) {
+      res.status(500).json({ message: error.message || 'Terjadi kesalahan pada server' });
+    }
+  },
+
+  getDetailProfileUser: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const user = await User.find({ _id: id });
+      res.status(200).json({
+        data: user,
+      });
+    } catch (error) {
+      res.status(500).json({ message: error.message || 'Terjadi kesalahan pada server' });
+    }
+  },
+
   editProfile: async (req, res, next) => {
     try {
+      const { id } = req.params;
       const { name = '', phoneNumber = '' } = req.body;
-
       const payload = {};
 
       if (name.length) payload.name = name;
       if (phoneNumber.length) payload.phoneNumber = phoneNumber;
-
       if (req.file) {
         let tmp_path = req.file.path;
         let originaExt = req.file.originalname.split('.')[req.file.originalname.split('.').length - 1];
@@ -79,29 +104,24 @@ module.exports = {
         src.pipe(dest);
 
         src.on('end', async () => {
-          let user = await User.findOne({ _id: req.user._id });
+          let user = await User.findOne({ _id: id });
+          // let user = await User.findOne({ _id: id });
 
           let currentImage = `${config.rootPath}/public/uploads/${user.avatar}`;
           if (fs.existsSync(currentImage)) {
             fs.unlinkSync(currentImage);
           }
-
           user = await User.findOneAndUpdate(
             {
-              _id: req.user._id,
+              _id: id,
             },
-            {
-              ...payload,
-              avatar: filename,
-            },
-            { new: true, runValidators: true }
+            { payload, avatar: filename }
           );
 
-          console.log(user);
-
-          res.status(201).json({
+          res.status(200).json({
             data: {
-              id: user.id,
+              _id: user._id,
+              email: user.email,
               name: user.name,
               phoneNumber: user.phoneNumber,
               avatar: user.avatar,
@@ -115,30 +135,24 @@ module.exports = {
       } else {
         const user = await User.findOneAndUpdate(
           {
-            _id: req.user._id,
+            _id: id,
           },
           payload,
           { new: true, runValidators: true }
         );
 
-        res.status(201).json({
+        res.status(200).json({
           data: {
-            id: user.id,
+            _id: user._id,
+            email: user.email,
             name: user.name,
-            username: user.username,
             phoneNumber: user.phoneNumber,
             avatar: user.avatar,
           },
         });
       }
     } catch (err) {
-      if (err && err.name === 'ValidationError') {
-        res.status(422).json({
-          error: 1,
-          message: err.message,
-          fields: err.errors,
-        });
-      }
+      res.status(500).json({ message: err.message || 'Terjadi kesalahan pada server' });
     }
   },
 };

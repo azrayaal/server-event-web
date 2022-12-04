@@ -22,10 +22,6 @@ let eventSchema = mongoose.Schema(
       type: String,
       require: [true, 'lokasi harus diiisi'],
     },
-    // time: {
-    //   type: String,
-    //   require: [true, 'lokasi harus diiisi'],
-    // },
     organizer: {
       type: String,
       require: [true, 'lokasi harus diiisi'],

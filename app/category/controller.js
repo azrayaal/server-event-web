@@ -39,9 +39,9 @@ module.exports = {
 
   actionCreate: async (req, res) => {
     try {
-      const { category_name, price } = req.body;
+      const { category_name, price, category_qty } = req.body;
 
-      let category = await Category({ category_name, price });
+      let category = await Category({ category_name, price, category_qty });
       await category.save();
 
       req.flash('alertMessage', 'Berhasil tambah kategori');

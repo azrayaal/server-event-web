@@ -10,11 +10,12 @@ let categorySchema = mongoose.Schema(
       type: Number,
       require: [true, 'harga harus diiisi'],
     },
-    category_qty: {
-      type: Number,
-      default: 0,
-      require: [true, 'harga harus diiisi'],
-    },
+    quantity: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Qyt',
+      },
+    ],
   },
   { timestamps: true }
 );

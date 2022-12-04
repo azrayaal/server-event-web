@@ -13,6 +13,7 @@ const adminRouter = require('./app/admins/router');
 const usersRouter = require('./app/users/router');
 const eventRouter = require('./app/event/router');
 const categoryRouter = require('./app/category/router');
+const qtyRouter = require('./app/qty/router');
 const talentRouter = require('./app/talent/router');
 const requestRouter = require('./app/request/router');
 const apiRouter = require('./app/api/router');
@@ -49,6 +50,7 @@ app.use('/user', usersRouter);
 app.use('/dashboard', indexRouter);
 app.use('/event', eventRouter);
 app.use('/category', categoryRouter);
+app.use('/qty', qtyRouter);
 app.use('/talent', talentRouter);
 app.use('/request', requestRouter);
 

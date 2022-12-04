@@ -1,4 +1,5 @@
 const Category = require('./model');
+const Qty = require('../qty/model');
 
 module.exports = {
   index: async (req, res) => {
@@ -8,12 +9,14 @@ module.exports = {
 
       const alert = { message: alertMessage, status: alertStatus };
       const category = await Category.find();
+      const qty = await Qty.find();
 
       console.log('alert >>');
       console.log(alert);
 
       res.render('admin/category/view_category', {
         category,
+        qty,
         alert,
         name: req.session.admin.name,
         title: 'Halaman kategori',
@@ -24,6 +27,7 @@ module.exports = {
       res.redirect('/category');
     }
   },
+
   viewCreate: async (req, res) => {
     try {
       res.render('admin/category/create', {
@@ -39,9 +43,10 @@ module.exports = {
 
   actionCreate: async (req, res) => {
     try {
-      const { category_name, price, category_qty } = req.body;
+      const { category_name, price } = req.body;
+      const qty = await Qty.find();
 
-      let category = await Category({ category_name, price, category_qty });
+      let category = await Category({ category_name, price, qty });
       await category.save();
 
       req.flash('alertMessage', 'Berhasil tambah kategori');

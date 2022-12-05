@@ -28,24 +28,6 @@ module.exports = {
       res.status(500).json({ message: error.message || 'Terjadi kesalahan pada server' });
     }
   },
-  // detailPage: async (req, res) => {
-  //   try {
-  //     const { id } = req.params;
-  //     const event = await Event.findOne({ _id: id })
-  //       .populate({
-  //         path: 'category',
-  //         populate: {
-  //           path: 'quantity',
-  //           model: 'Quantity',
-  //         },
-  //       })
-  //       .populate('talent');
-
-  //     res.status(200).json({ data: event });
-  //   } catch (error) {
-  //     res.status(500).json({ message: error.message || 'Terjadi kesalahan pada server' });
-  //   }
-  // },
 
   detailCategory: async (req, res) => {
     try {

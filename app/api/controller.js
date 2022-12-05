@@ -3,6 +3,7 @@ const Category = require('../category/model');
 const Request = require('../request/model');
 const Talent = require('../talent/model');
 const User = require('../users/model');
+const Quantity = require('../quantity/model');
 const path = require('path');
 const fs = require('fs');
 const config = require('../../config');
@@ -21,7 +22,46 @@ module.exports = {
     try {
       const { id } = req.params;
       const event = await Event.findOne({ _id: id }).populate('category').populate('talent');
+
       res.status(200).json({ data: event });
+    } catch (error) {
+      res.status(500).json({ message: error.message || 'Terjadi kesalahan pada server' });
+    }
+  },
+  // detailPage: async (req, res) => {
+  //   try {
+  //     const { id } = req.params;
+  //     const event = await Event.findOne({ _id: id })
+  //       .populate({
+  //         path: 'category',
+  //         populate: {
+  //           path: 'quantity',
+  //           model: 'Quantity',
+  //         },
+  //       })
+  //       .populate('talent');
+
+  //     res.status(200).json({ data: event });
+  //   } catch (error) {
+  //     res.status(500).json({ message: error.message || 'Terjadi kesalahan pada server' });
+  //   }
+  // },
+
+  detailCategory: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const category = await Category.findOne({ _id: id }).populate('quantity');
+      res.status(200).json({ data: category });
+    } catch (error) {
+      res.status(500).json({ message: error.message || 'Terjadi kesalahan pada server' });
+    }
+  },
+
+  detailQuantity: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const quantity = await Quantity.findOne({ _id: id }).populate('quantity');
+      res.status(200).json({ data: quantity });
     } catch (error) {
       res.status(500).json({ message: error.message || 'Terjadi kesalahan pada server' });
     }

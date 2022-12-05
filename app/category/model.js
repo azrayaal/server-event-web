@@ -10,12 +10,17 @@ let categorySchema = mongoose.Schema(
       type: Number,
       require: [true, 'harga harus diiisi'],
     },
-    quantity: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Qyt',
-      },
-    ],
+    // quantity: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Quantity',
+    //   },
+    // ],
+    quantity: {
+      type: Number,
+      default: 0,
+      require: true,
+    },
   },
   { timestamps: true }
 );

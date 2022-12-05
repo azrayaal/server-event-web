@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
-let qtySchema = mongoose.Schema(
+let quantityScheme = mongoose.Schema(
   {
     nama: {
       type: String,
       require: [true, 'quantity diiisi'],
     },
-    category_qty: {
+    quantity: {
       type: Number,
       require: [true, 'quantity diiisi'],
     },
@@ -14,4 +14,4 @@ let qtySchema = mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Qty', qtySchema);
+module.exports = mongoose.model('Quantity', quantityScheme);

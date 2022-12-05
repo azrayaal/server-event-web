@@ -1,4 +1,4 @@
-const Qty = require('./model');
+const Quantity = require('./model');
 
 module.exports = {
   index: async (req, res) => {
@@ -7,13 +7,13 @@ module.exports = {
       const alertStatus = req.flash('alertStatus');
 
       const alert = { message: alertMessage, status: alertStatus };
-      const qty = await Qty.find();
+      const quantity = await Quantity.find();
 
       console.log('alert >>');
       console.log(alert);
 
-      res.render('admin/qty/view_qty', {
-        qty,
+      res.render('admin/quantity/view_quantity', {
+        quantity,
         alert,
         name: req.session.admin.name,
         title: 'Halaman qty',
@@ -21,38 +21,38 @@ module.exports = {
     } catch (err) {
       req.flash('alertMessage', `${err.message}`);
       req.flash('alertStatus', 'danger');
-      res.redirect('/qty');
+      res.redirect('/quantity');
     }
   },
 
   viewCreate: async (req, res) => {
     try {
-      res.render('admin/qty/create', {
+      res.render('admin/quantity/create', {
         name: req.session.admin.name,
         title: 'Halaman tambah qty',
       });
     } catch (err) {
       req.flash('alertMessage', `${err.message}`);
       req.flash('alertStatus', 'danger');
-      res.redirect('/qty');
+      res.redirect('/quantity');
     }
   },
 
   actionCreate: async (req, res) => {
     try {
-      const { category_qty, nama } = req.body;
+      const { quantity, nama } = req.body;
 
-      let qty = await Qty({ category_qty, nama });
+      let qty = await Quantity({ quantity, nama });
       await qty.save();
 
       req.flash('alertMessage', 'Berhasil tambah qty');
       req.flash('alertStatus', 'success');
 
-      res.redirect('/qty');
+      res.redirect('/quantity');
     } catch (err) {
       req.flash('alertMessage', `${err.message}`);
       req.flash('alertStatus', 'danger');
-      res.redirect('/qty');
+      res.redirect('/quantity');
     }
   },
 
@@ -60,40 +60,40 @@ module.exports = {
     try {
       const { id } = req.params;
 
-      const qty = await Qty.findOne({ _id: id });
+      const quantity = await Quantity.findOne({ _id: id });
 
-      res.render('admin/qty/edit', {
-        qty,
+      res.render('admin/quantity/edit', {
+        quantity,
         name: req.session.admin.name,
-        title: 'Halaman ubah qty',
+        title: 'Halaman ubah quantity',
       });
     } catch (err) {
       req.flash('alertMessage', `${err.message}`);
       req.flash('alertStatus', 'danger');
-      res.redirect('/qty');
+      res.redirect('/quantity');
     }
   },
 
   actionEdit: async (req, res) => {
     try {
       const { id } = req.params;
-      const { category_qty } = req.body;
+      const { quantity, name } = req.body;
 
-      await Qty.findOneAndUpdate(
+      await Quantity.findOneAndUpdate(
         {
           _id: id,
         },
-        { category_qty }
+        { quantity, name }
       );
 
       req.flash('alertMessage', 'Berhasil ubah qty');
       req.flash('alertStatus', 'success');
 
-      res.redirect('/qty');
+      res.redirect('/quantity');
     } catch (err) {
       req.flash('alertMessage', `${err.message}`);
       req.flash('alertStatus', 'danger');
-      res.redirect('/qty');
+      res.redirect('/quantity');
     }
   },
 
@@ -101,18 +101,18 @@ module.exports = {
     try {
       const { id } = req.params;
 
-      await Qty.findOneAndRemove({
+      await Quantity.findOneAndRemove({
         _id: id,
       });
 
       req.flash('alertMessage', 'Berhasil hapus qty');
       req.flash('alertStatus', 'success');
 
-      res.redirect('/qty');
+      res.redirect('/quantity');
     } catch (err) {
       req.flash('alertMessage', `${err.message}`);
       req.flash('alertStatus', 'danger');
-      res.redirect('/qty');
+      res.redirect('/quantity');
     }
   },
 };

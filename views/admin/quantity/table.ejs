@@ -8,14 +8,14 @@
     </tr>
   </thead>
   <tbody>
-    <% for(let i = 0; i < qty.length; i++){ %>
+    <% for(let i = 0; i < quantity.length; i++){ %>
     <tr>
       <td><%= i + 1 %></td>
-      <td><%= qty[i].nama %></td>
-      <td><%= qty[i].category_qty %></td>
+      <td><%= quantity[i].nama %></td>
+      <td><%= quantity[i].quantity %></td>
       <td>
-        <form action="/qty/delete/<%= qty[i]._id %>?_method=DELETE" method="POST">
-          <a href="/qty/edit/<%= qty[i]._id %>" class="btn btn-warning">
+        <form action="/quantity/delete/<%= quantity[i]._id %>?_method=DELETE" method="POST">
+          <a href="/quantity/edit/<%= quantity[i]._id %>" class="btn btn-warning">
             <i class="fas fa-pencil-alt"></i>
             Edit
           </a>

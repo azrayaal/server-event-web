@@ -16,6 +16,7 @@ const categoryRouter = require('./app/category/router');
 const quantityRouter = require('./app/quantity/router');
 const talentRouter = require('./app/talent/router');
 const requestRouter = require('./app/request/router');
+const transactionRouter = require('./app/transaction/router');
 const apiRouter = require('./app/api/router');
 const authRouter = require('./app/auth/router');
 
@@ -53,6 +54,7 @@ app.use('/category', categoryRouter);
 app.use('/quantity', quantityRouter);
 app.use('/talent', talentRouter);
 app.use('/request', requestRouter);
+app.use('/transaction', transactionRouter);
 
 // API
 app.use(`${URL}/leisure`, apiRouter);

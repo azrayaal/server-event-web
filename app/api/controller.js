@@ -2,6 +2,7 @@ const Event = require('../event/model');
 const Category = require('../category/model');
 const Request = require('../request/model');
 const Talent = require('../talent/model');
+const Transaction = require('../transaction/model');
 const User = require('../users/model');
 const Quantity = require('../quantity/model');
 const path = require('path');
@@ -46,23 +47,6 @@ module.exports = {
       res.status(200).json({ data: quantity });
     } catch (error) {
       res.status(500).json({ message: error.message || 'Terjadi kesalahan pada server' });
-    }
-  },
-
-  requestPage: async (req, res) => {
-    try {
-      await Request.create({
-        event_name: req.body.event_name,
-        description: req.body.description,
-        date: req.body.date,
-        location: req.body.location,
-        maps: req.body.maps,
-        agencyName: req.body.agencyName,
-        email: req.body.email,
-      });
-      res.status(201).json({ message: 'Request berhasil ditambahkan' });
-    } catch (error) {
-      console.log(error);
     }
   },
 
@@ -175,6 +159,189 @@ module.exports = {
       }
     } catch (err) {
       res.status(500).json({ message: err.message || 'Terjadi kesalahan pada server' });
+    }
+  },
+
+  requestPage: async (req, res) => {
+    try {
+      const payload = {
+        event_name: req.body.event_name,
+        description: req.body.description,
+        date: req.body.date,
+        location: req.body.location,
+        maps: req.body.maps,
+        agencyName: req.body.agencyName,
+        email: req.body.email,
+        user: req.user._id,
+        name: req.user.name,
+      };
+
+      const request = new Request(payload);
+
+      await request.save();
+
+      res.status(201).json({ data: request, message: 'berhasil Request' });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  historyRequest: async (req, res) => {
+    try {
+      const { status = '' } = req.query;
+
+      let criteria = {};
+
+      if (status.length) {
+        criteria = {
+          ...criteria,
+          status: { $regex: `${status}`, $options: 'i' },
+        };
+      }
+
+      if (req.user._id) {
+        criteria = {
+          ...criteria,
+          user: req.user._id,
+        };
+      }
+
+      const history = await Request.find(criteria);
+
+      res.status(200).json({
+        data: history,
+      });
+    } catch (err) {
+      res.status(500).json({ message: err.message || `Internal server error` });
+    }
+  },
+
+  historyRequestDetail: async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const history = await Request.findOne({ _id: id });
+
+      if (!history) return res.status(404).json({ message: 'request tidak ditemukan.' });
+
+      res.status(200).json({ data: history });
+    } catch (err) {
+      res.status(500).json({ message: err.message || `Internal server error` });
+    }
+  },
+
+  checkout: async (req, res) => {
+    try {
+      const { event_name, location, date, quantity, total, event, thumbnail } = req.body;
+
+      // const res_voucher = await Voucher.findOne({ _id: voucher }).select('name caegory _id thumbnail user').populate('category').populate('user');
+      // if (!res_voucher) return res.status(404).json({ message: 'voucher game tidak ditemukan.' });
+
+      const res_category = await Category.findOne({ _id: category });
+      if (!res_category) return res.status(404).json({ message: 'category tidak ditemukan.' });
+
+      const res_thumbnail = await Event.findOne({ _id: thumbnail });
+      if (!res_thumbnail) return res.status(404).json({ message: 'event tidak ditemukan.' });
+
+      const payload = {
+        historyTicketCat: {
+          event_name,
+          category: res_category._doc.category ? res_category._doc.category.category_name : '',
+          thumbnail: res_thumbnail._doc.event ? res_thumbnail._doc.event.thumbnail : '',
+          location,
+          date,
+          quantity,
+          total,
+        },
+
+        user: req.user._id,
+        name: req.user.name,
+      };
+
+      const transaction = new Transaction(payload);
+
+      await transaction.save();
+
+      res.status(201).json({
+        data: transaction,
+        message: 'berhasil CO',
+      });
+    } catch (err) {
+      res.status(500).json({ message: err.message || `Internal server error` });
+    }
+  },
+
+  history: async (req, res) => {
+    try {
+      const { status = '' } = req.query;
+
+      let criteria = {};
+
+      if (status.length) {
+        criteria = {
+          ...criteria,
+          status: { $regex: `${status}`, $options: 'i' },
+        };
+      }
+
+      if (req.user._id) {
+        criteria = {
+          ...criteria,
+          user: req.user._id,
+        };
+      }
+
+      const history = await Transaction.find(criteria);
+
+      res.status(200).json({
+        data: history,
+      });
+    } catch (err) {
+      res.status(500).json({ message: err.message || `Internal server error` });
+    }
+  },
+
+  historyDetail: async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const history = await Transaction.findOne({ _id: id });
+
+      if (!history) return res.status(404).json({ message: 'history tidak ditemukan.' });
+
+      res.status(200).json({ data: history });
+    } catch (err) {
+      res.status(500).json({ message: err.message || `Internal server error` });
+    }
+  },
+
+  dashboard: async (req, res) => {
+    try {
+      const count = await Transaction.aggregate([
+        { $match: { player: req.player._id } },
+        {
+          $group: {
+            _id: '$category',
+            value: { $sum: '$value' },
+          },
+        },
+      ]);
+
+      const category = await Category.find({});
+
+      category.forEach((element) => {
+        count.forEach((data) => {
+          if (data._id.toString() === element._id.toString()) {
+            data.name = element.name;
+          }
+        });
+      });
+
+      const history = await Transaction.find({ player: req.player._id }).populate('category').sort({ updatedAt: -1 });
+
+      res.status(200).json({ data: history, count: count });
+    } catch (err) {
+      res.status(500).json({ message: err.message || `Internal server error` });
     }
   },
 };

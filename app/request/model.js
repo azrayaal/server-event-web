@@ -32,8 +32,15 @@ let requestSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['Pending', 'Accept', 'Decline'],
-      default: 'Pending',
+      enum: ['pending', 'accept', 'decline'],
+      default: 'pending',
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    name: {
+      type: String,
     },
     // user: [
     //   {

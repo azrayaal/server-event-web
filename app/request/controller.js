@@ -45,6 +45,30 @@ module.exports = {
     }
   },
 
+  actionStatus: async (req, res) => {
+    try {
+      const { id } = req.params;
+      let request = await Request.findOne({ _id: id });
+
+      let status = request.status === 'accept' ? 'decline' : 'accept';
+
+      request = await Request.findOneAndUpdate(
+        {
+          _id: id,
+        },
+        { status }
+      );
+
+      req.flash('alertMessage', `Berhasil ubah status`);
+      req.flash('alertStatus', 'success');
+      res.redirect('/request');
+    } catch (err) {
+      req.flash('alertMessage', `${err.message}`);
+      req.flash('alertStatus', 'danger');
+      res.redirect('/request');
+    }
+  },
+
   actionDelete: async (req, res) => {
     try {
       const { id } = req.params;

@@ -10,12 +10,22 @@ const fs = require('fs');
 const config = require('../../config');
 
 module.exports = {
+  // landingPage: async (req, res) => {
+  //   try {
+  //     const event = await Event.find().populate('category');
+  //     res.status(200).json({ data: event });
+  //   } catch (error) {
+  //     res.status(500).json({ message: error.message || 'Terjadi kesalahan pada server' });
+  //   }
+  // },
+
   landingPage: async (req, res) => {
     try {
       const event = await Event.find().populate('category');
+
       res.status(200).json({ data: event });
-    } catch (error) {
-      res.status(500).json({ message: error.message || 'Terjadi kesalahan pada server' });
+    } catch (err) {
+      res.status(500).json({ message: err.message || `Internal server error` });
     }
   },
 

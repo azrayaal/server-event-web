@@ -22,8 +22,6 @@ const os = require('os');
 
 const { isLoginUser } = require('../middleware/auth');
 
-router.use(isLoginUser);
-
 router.get('/landingpage', landingPage);
 router.get('/getprofileuser', getProfileUser);
 router.get('/detail/:id', detailPage);

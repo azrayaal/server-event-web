@@ -12,7 +12,7 @@ let requestSchema = mongoose.Schema(
     },
     date: {
       type: String,
-      require: [true, 'tanggal harus diiisi'],
+      // require: [true, 'tanggal harus diiisi'],
     },
     location: {
       type: String,
@@ -41,6 +41,10 @@ let requestSchema = mongoose.Schema(
     },
     name: {
       type: String,
+    },
+    thumbnail: {
+      type: String,
+      require: [true, 'thumbnail harus diiisi'],
     },
     // user: [
     //   {

@@ -3,21 +3,17 @@ const mongoose = require('mongoose');
 let transactionSchema = mongoose.Schema(
   {
     historyTicketCat: {
-      event_name: { type: String, require: [true, 'nama game harus diisi.'] },
-      category: { type: String, require: [true, 'kategori harus diisi.'] },
-      thumbnail: { type: String },
+      event_name: { type: String, require: [true, 'nama event harus diisi.'] },
+      category: { type: String },
+      banner: { type: String },
       date: { type: String },
       location: { type: String },
       total: { type: Number },
-      quantity: { type: Number },
       description: { type: String },
+      quantity: { type: Number },
     },
 
     historyRequest: {
-      // name: { type: String, require: [true, 'nama harus diisi.'] },
-      // type: { type: String, require: [true, 'tipe pembayaran harus diisi.'] },
-      // bankName: { type: String, require: [true, 'nama bank harus diisi.'] },
-      // noRekening: { type: String, require: [true, 'nomor rekening harus diisi.'] },
       event_name: { type: String },
       description: { type: String },
       date: { type: String },
@@ -41,11 +37,6 @@ let transactionSchema = mongoose.Schema(
       minlength: [3, 'panjang nama harus antara 3 - 225 karakter'],
     },
 
-    // quantity: {
-    //   type: Number,
-    //   default: 0,
-    // },
-
     status: {
       type: String,
       enum: ['pending', 'success', 'failed'],
@@ -62,13 +53,17 @@ let transactionSchema = mongoose.Schema(
       },
     },
 
-    ticket: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Category',
-    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
+    },
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category',
+    },
+    event: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Event',
     },
   },
   { timestamps: true }

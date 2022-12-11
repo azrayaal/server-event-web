@@ -12,7 +12,7 @@ const config = require('../../config');
 module.exports = {
   landingPage: async (req, res) => {
     try {
-      const event = await Event.find({ status: 'Publish' });
+      const event = await Event.find().populate('category');
       res.status(200).json({ data: event });
     } catch (error) {
       res.status(500).json({ message: error.message || 'Terjadi kesalahan pada server' });
@@ -162,28 +162,76 @@ module.exports = {
     }
   },
 
-  requestPage: async (req, res) => {
+  requestPage: async (req, res, next) => {
     try {
       const payload = {
+        email: req.user.email,
+        user: req.user._id,
+        name: req.user.name,
+
         event_name: req.body.event_name,
         description: req.body.description,
         date: req.body.date,
         location: req.body.location,
         maps: req.body.maps,
         agencyName: req.body.agencyName,
-        email: req.body.email,
-        user: req.user._id,
-        name: req.user.name,
       };
 
-      const request = new Request(payload);
+      if (req.file) {
+        let tmp_path = req.file.path;
+        let originaExt = req.file.originalname.split('.')[req.file.originalname.split('.').length - 1];
+        let filename = req.file.filename + '.' + originaExt;
+        let target_path = path.resolve(config.rootPath, `public/uploads/${filename}`);
 
-      await request.save();
+        const src = fs.createReadStream(tmp_path);
+        const dest = fs.createWriteStream(target_path);
 
-      res.status(201).json({ data: request, message: 'berhasil Request' });
-    } catch (error) {
-      console.log(error);
+        src.pipe(dest);
+
+        src.on('end', async () => {
+          try {
+            const request = new Request({ ...payload, thumbnail: filename });
+
+            await request.save();
+
+            res.status(201).json({ data: request });
+          } catch (err) {
+            if (err && err.name === 'ValidationError') {
+              return res.status(422).json({
+                error: 1,
+                message: err.message,
+                fields: err.errors,
+              });
+            }
+            next(err);
+          }
+        });
+      } else {
+        let request = new Request(payload);
+
+        await request.save();
+
+        res.status(201).json({ data: request });
+      }
+    } catch (err) {
+      if (err && err.name === 'ValidationError') {
+        return res.status(422).json({
+          error: 1,
+          message: err.message,
+          fields: err.errors,
+        });
+      }
+      next(err);
     }
+
+    //   const request = new Request(payload);
+
+    //   await request.save();
+
+    //   res.status(201).json({ data: request, message: 'berhasil Request' });
+    // } catch (error) {
+    //   console.log(error);
+    // }
   },
 
   historyRequest: async (req, res) => {
@@ -232,24 +280,20 @@ module.exports = {
 
   checkout: async (req, res) => {
     try {
-      const { event_name, location, date, quantity, total, event, thumbnail } = req.body;
+      const { quantity, total, event, category } = req.body;
 
-      // const res_voucher = await Voucher.findOne({ _id: voucher }).select('name caegory _id thumbnail user').populate('category').populate('user');
-      // if (!res_voucher) return res.status(404).json({ message: 'voucher game tidak ditemukan.' });
-
-      const res_category = await Category.findOne({ _id: category });
-      if (!res_category) return res.status(404).json({ message: 'category tidak ditemukan.' });
-
-      const res_thumbnail = await Event.findOne({ _id: thumbnail });
-      if (!res_thumbnail) return res.status(404).json({ message: 'event tidak ditemukan.' });
+      const res_event = await Event.findOne({ _id: event }).select('event_name _id banner location date description  category').populate('category').populate('user');
+      if (!res_event) return res.status(404).json({ message: 'event tidak ditemukan.' });
 
       const payload = {
         historyTicketCat: {
-          event_name,
-          category: res_category._doc.category ? res_category._doc.category.category_name : '',
-          thumbnail: res_thumbnail._doc.event ? res_thumbnail._doc.event.thumbnail : '',
-          location,
-          date,
+          event_name: res_event._doc.event_name,
+          // category: res_event._doc.category ? res_event._doc.category.category_name : '',
+          banner: res_event._doc.banner,
+          location: res_event._doc.location,
+          date: res_event._doc.date,
+          description: res_event._doc.description,
+          category,
           quantity,
           total,
         },

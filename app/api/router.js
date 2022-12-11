@@ -32,7 +32,7 @@ router.get('/detailprofile/:id', getDetailProfileUser);
 router.put('/editprofile/:id', multer({ dest: os.tmpdir() }).single('image'), editProfile);
 router.get('/detailquantity/:id', detailQuantity);
 
-router.post('/request', isLoginUser, requestPage);
+router.post('/request', isLoginUser, multer({ dest: os.tmpdir() }).single('image'), requestPage);
 router.get('/historyrequest', isLoginUser, historyRequest);
 router.get('/historyrequest/:id/detail', isLoginUser, historyRequestDetail);
 

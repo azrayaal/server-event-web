@@ -22,9 +22,9 @@ let eventSchema = mongoose.Schema(
       type: String,
       require: [true, 'lokasi harus diiisi'],
     },
-    organizer: {
+    agency_name: {
       type: String,
-      require: [true, 'lokasi harus diiisi'],
+      require: [true, 'agency_name harus diiisi'],
     },
     banner: {
       type: String,
@@ -35,10 +35,16 @@ let eventSchema = mongoose.Schema(
         ref: 'Talent',
       },
     ],
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+
     category: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',
+        require: [true, 'category harus diiisi'],
       },
     ],
     status: {

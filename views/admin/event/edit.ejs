@@ -42,10 +42,12 @@
                     </div>
                     <!-- </div> -->
                     <!-- <div class="card-body"> -->
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                       <label for="name">Masukan deskripsi event</label>
                       <input type="text" name="description" class="form-control" value="<%= event.description %>" id="exampleInputEmail1" placeholder="masukan deskripsi event" required />
-                    </div>
+                    </div> -->
+
+                   
                     <!-- </div> -->
                     <!-- <div class="card-body"> -->
                     <div class="form-group">
@@ -114,6 +116,14 @@
                         </select>
                       </div>
                     </div>
+
+                        <div class="form-group">
+                      <label for="editor">Masukan deskripsi event</label>
+                      <textarea type="text" class="form-control"  name="description" id="txaContent" rows="10" cols="80">
+            <%= event.description %>
+                    </textarea
+                      >
+                    </div>
                     <div class="form-group">
                       <label for="image">Banner</label>
                       <input type="file" name="image" class="form-control" id="image" placeholder=""  />
@@ -168,5 +178,14 @@
   }
   $('#image').change(function () {
     readUrl(this);
+  });
+</script>
+<script src="/ckeditor/ckeditor.js"></script>
+<script>
+  CKEDITOR.replace('txaContent', {
+    extraPlugins: 'filebrowser',
+    filebrowserBrowseUrl: '/list', //upload location
+    filebrowserUploadMethod: 'form',
+    filebrowserUploadUrl: '/upload', //route
   });
 </script>

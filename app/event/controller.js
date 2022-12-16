@@ -84,7 +84,7 @@ module.exports = {
 
             await event.save();
 
-            req.flash('alertMessage', 'Berhasil tambah talent');
+            req.flash('alertMessage', 'Berhasil tambah event');
             req.flash('alertStatus', 'success');
 
             res.redirect('/event');

@@ -16,7 +16,7 @@
       <td><%= i + 1 %></td>
       <td><%= request[i].event_name %></td>
       <td><%= request[i].description %></td>
-      <td><%= request[i].agencyName %></td>
+      <td><%= request[i].agency_name %></td>
       <td><%= request[i].date %></td>
       <td class="text-center">
         <form action="/request/status/<%= request[i]._id %>?_method=PUT" method="POST">

@@ -184,7 +184,7 @@ module.exports = {
         date: req.body.date,
         location: req.body.location,
         maps: req.body.maps,
-        agencyName: req.body.agencyName,
+        agency_name: req.body.agency_name,
       };
 
       if (req.file) {
@@ -301,8 +301,10 @@ module.exports = {
           // category: res_event._doc.category ? res_event._doc.category.category_name : '',
           banner: res_event._doc.banner,
           location: res_event._doc.location,
+          maps: res_event._doc.maps,
           date: res_event._doc.date,
           description: res_event._doc.description,
+          quantity: res_event.category.quantity,
           category,
           quantity,
           total,
@@ -346,6 +348,18 @@ module.exports = {
       }
 
       const history = await Transaction.find(criteria);
+
+      res.status(200).json({
+        data: history,
+      });
+    } catch (err) {
+      res.status(500).json({ message: err.message || `Internal server error` });
+    }
+  },
+
+  tickets: async (req, res) => {
+    try {
+      const history = await Transaction.find({ status: 'success' });
 
       res.status(200).json({
         data: history,

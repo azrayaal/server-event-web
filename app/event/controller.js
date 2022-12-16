@@ -55,7 +55,7 @@ module.exports = {
 
   actionCreate: async (req, res) => {
     try {
-      const { event_name, description, date, location, category, talent } = req.body;
+      const { event_name, description, date, location, category, talent, maps, agency_name } = req.body;
 
       if (req.file) {
         let tmp_path = req.file.path;
@@ -75,8 +75,10 @@ module.exports = {
               description,
               date,
               location,
+              maps,
               category,
               talent,
+              agency_name,
               banner: filename,
             });
 
@@ -93,7 +95,7 @@ module.exports = {
           }
         });
       } else {
-        const event = new Event({ event_name, description, date, location, category, talent, banner });
+        const event = new Event({ event_name, description, date, location, category, talent, banner, maps, agency_name });
 
         await event.save();
 
@@ -152,7 +154,7 @@ module.exports = {
   actionEdit: async (req, res) => {
     try {
       const { id } = req.params;
-      const { event_name, description, date, location, category, talent } = req.body;
+      const { event_name, description, date, location, category, talent, maps, agency_name } = req.body;
 
       if (req.file) {
         let tmp_path = req.file.path;
@@ -185,6 +187,8 @@ module.exports = {
                 location,
                 category,
                 talent,
+                maps,
+                agency_name,
                 banner: filename,
               }
             );
@@ -204,7 +208,7 @@ module.exports = {
           {
             _id: id,
           },
-          { event_name, description, date, location, category, talent }
+          { event_name, description, date, location, category, talent, maps, agency_name }
         );
 
         req.flash('alertMessage', 'Berhasil ubah event');

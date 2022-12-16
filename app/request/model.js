@@ -22,7 +22,7 @@ let requestSchema = mongoose.Schema(
       type: String,
       require: [true, 'maps harus diiisi'],
     },
-    agencyName: {
+    agency_name: {
       type: String,
       require: [true, 'agensi harus diiisi'],
     },

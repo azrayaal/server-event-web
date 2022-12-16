@@ -19,7 +19,7 @@ let transactionSchema = mongoose.Schema(
       date: { type: String },
       location: { type: String },
       maps: { type: String },
-      agencyName: { type: String },
+      agency_name: { type: String },
       email: { type: String },
     },
 

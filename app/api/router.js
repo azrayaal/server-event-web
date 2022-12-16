@@ -16,6 +16,7 @@ const {
   historyDetail,
   historyRequest,
   historyRequestDetail,
+  tickets,
 } = require('./controller');
 const multer = require('multer');
 const os = require('os');
@@ -36,5 +37,6 @@ router.get('/historyrequest/:id/detail', isLoginUser, historyRequestDetail);
 
 router.post('/checkout', isLoginUser, checkout);
 router.get('/history', isLoginUser, history);
+router.get('/tickets', isLoginUser, tickets);
 router.get('/history/:id/detail', isLoginUser, historyDetail);
 module.exports = router;

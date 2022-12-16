@@ -51,8 +51,15 @@
                   <%= event.location %>
                 </label>
               </div>
+              
               <div class="row">
                 <div class="col-6 col-sm-6">
+              <h4>Organizer:</h4>
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-default text-center">
+                  <%= event.agency_name %>
+                </label>
+              </div>
                   <h4 class="pt-3">Date: </h4>
                   <div class="btn-group btn-group-toggle" data-toggle="buttons">
                     <label class="btn btn-default text-center">
@@ -73,12 +80,10 @@
                                   <%= category.category_name %> - <%= category.price %> 
                                 </option>
                                 <% }); %> 
-                
                     </label>
                   </div>
                 </div>
                 <div class="col-6 col-sm-6">
-                
                   <h4 class="pt-3">Talent: </h4>
                   <div class="btn-group btn-group-toggle" data-toggle="buttons">
                     <div class="btn btn-default text-center class="form-control select2" multiple="multiple" value="<%= talent._id %>" data-placeholder="Pilih category" style="width: 100%" name="category"">
@@ -93,12 +98,10 @@
                                   <%= talent.talent_name %> 
                                 </option>
                                 <% }); %> 
-                
                     </div>
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
           <div class="row mt-4">
@@ -109,12 +112,11 @@
             </nav>
             <div class="tab-content p-3" id="nav-tabContent">
               <div class="tab-pane fade show active" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab"><%= event.description %></div>
-
             </div>
           </div>
         </div>
       </div>
-  <div class="card-footer">
+                  <div class="card-footer">
                     <button  class="btn btn-secondary">
                       <a href="/event" style="color: white"><i class="fa fa-undo"></i> Back</a>
                     </button>

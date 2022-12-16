@@ -3,7 +3,7 @@
     <tr>
       <th style="width: 7%">No</th>
       <th>Nama Event</th>
-      <th>Deskripsi</th>
+      <th ">Deskripsi</th>
       <th>Lokasi</th>
       <th>Tanggal</th>
       <th>Status</th>
@@ -15,7 +15,9 @@
     <tr>
       <td><%= i + 1 %></td>
       <td><%= event[i].event_name %></td>
-      <td><%= event[i].description %></td>
+      <td >
+        <input type="text"/  value="<%= event[i].description %>" disabled>
+       </td>
       <td><%= event[i].location %></td>
       <td><%= event[i].date %></td>
 

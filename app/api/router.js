@@ -17,6 +17,7 @@ const {
   historyRequest,
   historyRequestDetail,
   tickets,
+  searchEvent,
 } = require('./controller');
 const multer = require('multer');
 const os = require('os');
@@ -24,6 +25,7 @@ const os = require('os');
 const { isLoginUser } = require('../middleware/auth');
 
 router.get('/landingpage', landingPage);
+router.get('/search', searchEvent);
 router.get('/getprofileuser', getProfileUser);
 router.get('/detail/:id', detailPage);
 router.get('/detailcategory/:id', detailCategory);

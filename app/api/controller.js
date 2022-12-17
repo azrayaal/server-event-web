@@ -10,20 +10,45 @@ const fs = require('fs');
 const config = require('../../config');
 
 module.exports = {
-  // landingPage: async (req, res) => {
-  //   try {
-  //     const event = await Event.find().populate('category');
-  //     res.status(200).json({ data: event });
-  //   } catch (error) {
-  //     res.status(500).json({ message: error.message || 'Terjadi kesalahan pada server' });
-  //   }
-  // },
-
   landingPage: async (req, res) => {
     try {
-      const event = await Event.find().populate('category');
+      const { event_name = '' } = req.query;
+
+      let criteria = {};
+
+      if (event_name.length) {
+        criteria = {
+          ...criteria,
+          event_name: { $regex: `${event_name}`, $options: 'i' },
+        };
+      }
+
+      const event = await Event.find(criteria).populate('category');
 
       res.status(200).json({ data: event });
+    } catch (err) {
+      res.status(500).json({ message: err.message || `Internal server error` });
+    }
+  },
+
+  searchEvent: async (req, res) => {
+    try {
+      const { event_name = '' } = req.query;
+
+      let criteria = {};
+
+      if (event_name.length) {
+        criteria = {
+          ...criteria,
+          event_name: { $regex: `${event_name}`, $options: 'i' },
+        };
+      }
+
+      const search = await Event.find(criteria);
+
+      res.status(200).json({
+        data: search,
+      });
     } catch (err) {
       res.status(500).json({ message: err.message || `Internal server error` });
     }
@@ -233,15 +258,6 @@ module.exports = {
       }
       next(err);
     }
-
-    //   const request = new Request(payload);
-
-    //   await request.save();
-
-    //   res.status(201).json({ data: request, message: 'berhasil Request' });
-    // } catch (error) {
-    //   console.log(error);
-    // }
   },
 
   historyRequest: async (req, res) => {

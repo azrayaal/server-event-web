@@ -1,4 +1,4 @@
-const Event = require('../event/model');
+const Event = require('../Event/model');
 const Request = require('../request/model');
 const Admin = require('../admins/model');
 const User = require('../users/model');

@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@nodejh/react-draft-wysiwyg": "^0.0.5",
+    "@popperjs/core": "^2.11.6",
     "admin-lte": "^3.2.0",
     "bcryptjs": "^2.4.3",
     "ckeditor4": "^4.20.1",

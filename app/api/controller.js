@@ -2,6 +2,7 @@ const Event = require('../event/model');
 const Category = require('../category/model');
 const Request = require('../request/model');
 const Talent = require('../talent/model');
+const Admin = require('../admin/model');
 const Transaction = require('../transaction/model');
 const User = require('../users/model');
 const Quantity = require('../quantity/model');
@@ -51,6 +52,24 @@ module.exports = {
       });
     } catch (err) {
       res.status(500).json({ message: err.message || `Internal server error` });
+    }
+  },
+
+  adminsignup: async (req, res) => {
+    try {
+      const admin = new Admin({
+        email: req.body.email,
+        name: req.body.name,
+        password: req.body.password,
+      });
+
+      await admin.save();
+
+      res.status(200).json({
+        data: admin,
+      });
+    } catch (error) {
+      res.status(500).json({ message: error.message || 'Terjadi kesalahan pada server' });
     }
   },
 

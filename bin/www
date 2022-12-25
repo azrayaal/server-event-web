@@ -34,7 +34,7 @@ db.on('open', function () {
   server.listen(port);
   server.on('error', onError);
   server.on('listening', onListening);
-  console.log('berhasil connect ke mongo');
+  console.log(`berhasil connect ke mongo ${process.env.MONGO_URL}`);
 });
 
 /**

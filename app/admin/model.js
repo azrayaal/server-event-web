@@ -26,7 +26,7 @@ let adminSchema = mongoose.Schema(
     },
     phoneNumber: {
       type: String,
-      require: [true, 'Nomor telefon harus diiisi'],
+      // require: [true, 'Nomor telefon harus diiisi'],
     },
   },
   { timestamps: true }

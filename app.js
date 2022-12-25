@@ -9,7 +9,7 @@ const flash = require('connect-flash');
 const session = require('express-session');
 
 const indexRouter = require('./app/dashboard/router');
-const adminRouter = require('./app/admins/router');
+const adminRouter = require('./app/admin/router');
 const usersRouter = require('./app/users/router');
 const eventRouter = require('./app/event/router');
 const categoryRouter = require('./app/category/router');

@@ -1,6 +1,6 @@
 const Event = require('../event/model');
 const Request = require('../request/model');
-const Admin = require('../admins/model');
+const Admin = require('../admin/model');
 const User = require('../users/model');
 const Transaction = require('../transaction/model');
 
